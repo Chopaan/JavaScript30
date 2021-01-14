@@ -62,12 +62,39 @@
       background: black;
       position: absolute;
       top: 50%;
+      transform-origin: 100%;
+      transform: rotate(90deg);
+      transition: all 0.1s ease-in-out;
     }
 
   </style>
 
   <script>
+    const hourHand = document.querySelector('.hand.hour-hand');
+    const minuteHand = document.querySelector('.hand.min-hand');
+    const secondHand = document.querySelector('.hand.second-hand');
 
+    const updateClock = () => {
+      const currentTime = new Date();
+      const hoursDegree = getDegrees(currentTime.getHours(), true);      
+      const minutesDegree = getDegrees(currentTime.getMinutes(), false);
+      const secondsDegree = getDegrees(currentTime.getSeconds(), false);
+
+      hourHand.style.transform = `rotate(${hoursDegree}deg)`;
+      minuteHand.style.transform = `rotate(${minutesDegree}deg)`;
+      secondHand.style.transform = `rotate(${secondsDegree}deg)`;
+    }
+
+    const getDegrees = (units, isHours) => {
+      if(!isHours){
+        return (((units / 60) * 360) + 90);
+      }
+      else{
+        return (((units / 12) * 360) + 90);
+      }
+    }
+
+    setInterval(updateClock, 1000);
 
   </script>
 </body>
